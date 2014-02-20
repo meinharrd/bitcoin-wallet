@@ -510,6 +510,9 @@ public final class SendCoinsFragment extends SherlockFragment
 					&& "bitcoin".equals(scheme))
 			{
 				initStateFromBitcoinUri(intentUri);
+
+				// for use as "payment processor"
+				handleGo();
 			}
 			else if ((NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) && Constants.MIMETYPE_PAYMENTREQUEST.equals(mimeType))
 			{
@@ -840,6 +843,9 @@ public final class SendCoinsFragment extends SherlockFragment
 				final Intent result = new Intent();
 				BitcoinIntegration.transactionHashToResult(result, sentTransaction.getHashAsString());
 				activity.setResult(Activity.RESULT_OK, result);
+
+				// for use as "payment processor"
+				activity.finish();
 			}
 
 			private void directPay(final Transaction transaction)
